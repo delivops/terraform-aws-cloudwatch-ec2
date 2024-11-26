@@ -1,3 +1,7 @@
+data "aws_instance" "selected" {
+  instance_id = var.ec2_instance_id
+}
+
 resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   count               = var.high_cpu_enabled ? 1 : 0
   alarm_name          = "${var.ec2_instance_id}-high-cpu"
@@ -46,15 +50,13 @@ resource "aws_cloudwatch_metric_alarm" "status_check_failed" {
 
 }
 
-
-
 resource "aws_cloudwatch_metric_alarm" "high_memory" {
   count               = var.high_memory_enabled ? 1 : 0
   alarm_name          = "${var.ec2_instance_id}-high-memory"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "1"
   metric_name         = "mem_used_percent"
-  namespace           = "AWS/CWAgent"
+  namespace           = "CWAgent"
   period              = "300"
   statistic           = "Average"
   threshold           = var.high_memory_threshold
@@ -73,26 +75,29 @@ resource "aws_cloudwatch_metric_alarm" "high_memory" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "high_disk" {
-  count               = var.high_disk_enabled ? 1 : 0
-  alarm_name          = "${var.ec2_instance_id}-high-disk"
+  for_each            = { for idx, disk in var.disk_usage_thresholds : "${disk.path}-${disk.device}-${disk.fstype}" => disk }
+  alarm_name          = "${var.ec2_instance_id}-${each.key}-high-disk"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
-  metric_name         = "mem_used_percent"
-  namespace           = "AWS/CWAgent"
+  metric_name         = "disk_used_percent"
+  namespace           = "CWAgent"
   period              = "300"
   statistic           = "Maximum"
-  threshold           = var.high_disk_threshold
+  threshold           = each.value.threshold
   alarm_actions       = [var.aws_sns_topic_arn]
   ok_actions          = [var.aws_sns_topic_arn]
   dimensions = {
-    InstanceId = var.ec2_instance_id
+    InstanceId   = var.ec2_instance_id
+    ImageId      = data.aws_instance.selected.ami
+    InstanceType = data.aws_instance.selected.instance_type
+    device       = each.value.device
+    fstype       = each.value.fstype
+    path         = each.value.path
   }
   tags = merge(var.tags, {
     "InstanceId" = var.ec2_instance_id,
     "Terraform"  = "true"
   })
 
-
-  alarm_description = "Write Disk IN ${var.ec2_instance_id} is too high"
-
+  alarm_description = "Disk usage on ${each.value.path} in ${var.ec2_instance_id} is too high"
 }
