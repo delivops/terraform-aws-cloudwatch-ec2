@@ -19,18 +19,48 @@ The module will create cloudwatch alarms for your EC2. You can use this module m
 # Cloudwatch Alarms for EC2
 ################################################################################
 
-
-
-module "test-aurora-1-alarms" {
-  source          = "delivops/alerts/groundcover"
-  version         = "0.0.X"
-  db_instance_id                   = "test-aurora-1"
-  aws_sns_topic_arn                = aws_sns_topic.opsgenie_topic.arn
-  high_connections_max_connections = 1365
-  high_memory_max_allocations      = 16
-  depends_on = [ aws_sns_topic.opsgenie_topic ]
+provider "aws" {
+  region = "eu-west-1"
 }
 
+resource "aws_sns_topic" "sns_topic" {
+  name         = "sns"
+  display_name = "sns"
+}
+
+resource "aws_sns_topic_subscription" "sns_subscription" {
+  confirmation_timeout_in_minutes = 1
+  endpoint_auto_confirms          = false
+  topic_arn                       = aws_sns_topic.sns_topic.arn
+  protocol                        = "https"
+  endpoint                        = "https://api.sns.com/v1/xxx"
+  depends_on                      = [aws_sns_topic.sns_topic]
+}
+
+module "ec2-cloudwatch-alarms" {
+  source            = "deliveroo/ec2-alarms/aws"
+  #version          = "0.0.4"
+
+  ec2_instance_id   = var.ec2_instance_id
+  aws_sns_topic_arn = aws_sns_topic.sns_topic.arn
+  disk_usage_thresholds = [
+    {
+      path      = "/"
+      device    = "/dev/xvda1"
+      fstype    = "xfs"
+      threshold = 90
+    },
+    {
+      path      = "/mnt"
+      device    = "/dev/xvdb"
+      fstype    = "xfs"
+      threshold = 90
+    }
+  ]
+  high_cpu_enabled    = false
+  high_memory_enabled = false
+  depends_on = [aws_sns_topic.sns_topic]
+}
 
 ```
 
@@ -42,24 +72,8 @@ module "test-aurora-1-alarms" {
 2. high memory- with threshold:
    You enter the threshold for Memory, for example 80%. You are also enter the memory allocate for your instance-id, which you can find here: [Link text Here](https://sysadminxpert.com/aws-rds-max-connections-limit/#google_vignette)
    In case of alerts, the solution will be increasing the memory of your instance.
-3. high connections- with threshold:
-   You enter the threshold for Connections, for example 80%. You are also enter the connections allocate for your instance-id, which you can find here: [Link text Here](https://sysadminxpert.com/aws-rds-max-connections-limit/#google_vignette)
-   In case of alerts, the solution will be increasing the connections of your instance.
-4. high storage- with threshold:
-   You enter the threshold for storage, for example 80%.
-   In case of alerts, the solution will be increasing the storage of your instance.
-5. high write latency- with seconds
-   You enter the number of seconds that you can bear as latency, the recommendation is 2sc.
-   In case of alerts, you should decrease the traffic to your instance.
-6. high read latency- with seconds
-   You enter the number of seconds that you can bear as latency, the recommendation is 0.02sc.
-   In case of alerts, you should decrease the traffic to your instance or add a read replica.
-7. disk queue depth too high- with number
-   You enter the number of depths that you can bear in your instance, the recommendation is 64.
-   In case of alerting, the solution is increasing the read/write capacity of your instance.
-8. swap usage too high- with number
-   You enter the number of memory allocate for swap that you can bear in your instance, the recommendation is 256000000 (256MB).
-   In case of alerting, the solution is increasing the memory of your instance.
+3. high disk- with threshold:
+   You enter the threshold for disk, with the path, device and fstype of the disk. 
 
 ## License
 
