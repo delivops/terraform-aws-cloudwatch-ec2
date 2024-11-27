@@ -57,10 +57,16 @@ variable "high_disk_enabled" {
 variable "disk_usage_thresholds" {
   description = "List of disk usage thresholds with path, device, and fstype"
   type = list(object({
-    path   = string
-    device = string
-    fstype = string
+    path      = string
+    device    = string
+    fstype    = string
     threshold = number
   }))
   default = []
+}
+variable "namespace" {
+  description = "The namespace for the CloudWatch metric agent"
+  type        = string
+  default     = "CWAgent"
+
 }

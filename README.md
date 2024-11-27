@@ -59,6 +59,7 @@ module "ec2-cloudwatch-alarms" {
   ]
   high_cpu_enabled    = false
   high_memory_enabled = false
+  namespace = "CWAgent"
   depends_on = [aws_sns_topic.sns_topic]
 }
 

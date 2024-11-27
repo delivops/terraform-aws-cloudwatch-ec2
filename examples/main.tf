@@ -20,6 +20,7 @@ module "ec2-cloudwatch-alarms" {
   source            = "deliveroo/ec2-alarms/aws"
   ec2_instance_id   = var.ec2_instance_id
   aws_sns_topic_arn = aws_sns_topic.sns_topic.arn
+  namespace         = "CWAgent"
   disk_usage_thresholds = [
     {
       path      = "/"
@@ -36,7 +37,7 @@ module "ec2-cloudwatch-alarms" {
   ]
   high_cpu_enabled    = false
   high_memory_enabled = false
-  depends_on = [aws_sns_topic.sns_topic]
+  depends_on          = [aws_sns_topic.sns_topic]
 
 }
 

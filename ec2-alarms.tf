@@ -1,10 +1,6 @@
-data "aws_instance" "selected" {
-  instance_id = var.ec2_instance_id
-}
-
 resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   count               = var.high_cpu_enabled ? 1 : 0
-  alarm_name          = "${var.ec2_instance_id}-high-cpu"
+  alarm_name          = "high-cpu-${var.ec2_instance_id}"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 5
   metric_name         = "CPUUtilization"
@@ -27,7 +23,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
 }
 resource "aws_cloudwatch_metric_alarm" "status_check_failed" {
   count               = var.status_check_failed_enabled ? 1 : 0
-  alarm_name          = "${var.ec2_instance_id}-status-check-failed"
+  alarm_name          = "status-check-failed-${var.ec2_instance_id}"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 5
   datapoints_to_alarm = 5
@@ -36,7 +32,7 @@ resource "aws_cloudwatch_metric_alarm" "status_check_failed" {
   period              = 60
   statistic           = "Average"
   threshold           = var.status_check_failed_count
-  alarm_description   = "Average database Memory utilization IN ${var.ec2_instance_id} is too high"
+  alarm_description   = "Status check failed IN ${var.ec2_instance_id}"
   alarm_actions       = [var.aws_sns_topic_arn]
   ok_actions          = [var.aws_sns_topic_arn]
 
@@ -52,11 +48,11 @@ resource "aws_cloudwatch_metric_alarm" "status_check_failed" {
 
 resource "aws_cloudwatch_metric_alarm" "high_memory" {
   count               = var.high_memory_enabled ? 1 : 0
-  alarm_name          = "${var.ec2_instance_id}-high-memory"
+  alarm_name          = "high-memory-${var.ec2_instance_id}"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "1"
   metric_name         = "mem_used_percent"
-  namespace           = "CWAgent"
+  namespace           = var.namespace
   period              = "300"
   statistic           = "Average"
   threshold           = var.high_memory_threshold
@@ -76,23 +72,21 @@ resource "aws_cloudwatch_metric_alarm" "high_memory" {
 
 resource "aws_cloudwatch_metric_alarm" "high_disk" {
   for_each            = { for idx, disk in var.disk_usage_thresholds : "${disk.path}-${disk.device}-${disk.fstype}" => disk }
-  alarm_name          = "${var.ec2_instance_id}-${each.key}-high-disk"
+  alarm_name          = "high-disk-${var.ec2_instance_id}-${each.key}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "disk_used_percent"
-  namespace           = "CWAgent"
+  namespace           = var.namespace
   period              = "300"
   statistic           = "Maximum"
   threshold           = each.value.threshold
   alarm_actions       = [var.aws_sns_topic_arn]
   ok_actions          = [var.aws_sns_topic_arn]
   dimensions = {
-    InstanceId   = var.ec2_instance_id
-    ImageId      = data.aws_instance.selected.ami
-    InstanceType = data.aws_instance.selected.instance_type
-    device       = each.value.device
-    fstype       = each.value.fstype
-    path         = each.value.path
+    InstanceId = var.ec2_instance_id
+    device     = each.value.device
+    fstype     = each.value.fstype
+    path       = each.value.path
   }
   tags = merge(var.tags, {
     "InstanceId" = var.ec2_instance_id,
