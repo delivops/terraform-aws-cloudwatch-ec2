@@ -105,20 +105,20 @@ No modules.
 | [aws_cloudwatch_metric_alarm.high_disk](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.high_memory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.status_check_failed](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
-| [aws_instance.selected](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/instance) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_aws_sns_topic_arn"></a> [aws\_sns\_topic\_arn](#input\_aws\_sns\_topic\_arn) | The ARN of the SNS topic to send CloudWatch alarms to. | `string` | n/a | yes |
-| <a name="input_disk_usage_thresholds"></a> [disk\_usage\_thresholds](#input\_disk\_usage\_thresholds) | List of disk usage thresholds with path, device, and fstype | <pre>list(object({<br/>    path   = string<br/>    device = string<br/>    fstype = string<br/>    threshold = number<br/>  }))</pre> | `[]` | no |
+| <a name="input_disk_usage_thresholds"></a> [disk\_usage\_thresholds](#input\_disk\_usage\_thresholds) | List of disk usage thresholds with path, device, and fstype | <pre>list(object({<br/>    path      = string<br/>    device    = string<br/>    fstype    = string<br/>    threshold = number<br/>  }))</pre> | `[]` | no |
 | <a name="input_ec2_instance_id"></a> [ec2\_instance\_id](#input\_ec2\_instance\_id) | The instance ID of the EC2 instance that you want to monitor. | `string` | n/a | yes |
 | <a name="input_high_cpu_enabled"></a> [high\_cpu\_enabled](#input\_high\_cpu\_enabled) | Enable high CPU alarm | `bool` | `true` | no |
 | <a name="input_high_cpu_threshold"></a> [high\_cpu\_threshold](#input\_high\_cpu\_threshold) | The threshold for high CPU usage | `number` | `90` | no |
 | <a name="input_high_disk_enabled"></a> [high\_disk\_enabled](#input\_high\_disk\_enabled) | Enable high disk alarm | `bool` | `true` | no |
 | <a name="input_high_memory_enabled"></a> [high\_memory\_enabled](#input\_high\_memory\_enabled) | Enable high memory alarm | `bool` | `true` | no |
 | <a name="input_high_memory_threshold"></a> [high\_memory\_threshold](#input\_high\_memory\_threshold) | The threshold for high memory usage | `number` | `90` | no |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | The namespace for the CloudWatch metric agent | `string` | `"CWAgent"` | no |
 | <a name="input_status_check_failed_count"></a> [status\_check\_failed\_count](#input\_status\_check\_failed\_count) | The number of failed status checks before the alarm is triggered | `number` | `1` | no |
 | <a name="input_status_check_failed_enabled"></a> [status\_check\_failed\_enabled](#input\_status\_check\_failed\_enabled) | Enable status check failed alarm | `bool` | `true` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources. | `map(string)` | `{}` | no |
