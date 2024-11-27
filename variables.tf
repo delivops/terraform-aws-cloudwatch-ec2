@@ -26,6 +26,11 @@ variable "ec2_instance_id" {
   description = "The instance ID of the EC2 instance that you want to monitor."
   type        = string
 }
+variable "ec2_instance_name" {
+  description = "The name of the EC2 instance that you want to monitor."
+  type        = string
+
+}
 variable "aws_sns_topic_arn" {
   description = "The ARN of the SNS topic to send CloudWatch alarms to."
   type        = string
