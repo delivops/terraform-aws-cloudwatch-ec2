@@ -1,6 +1,7 @@
 resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   count                     = var.high_cpu_enabled ? 1 : 0
-  alarm_name                = "high-cpu-${var.ec2_instance_name}"
+  alarm_name                = "EC2| ${var.ec2_instance_name} | High CPU Utilization"
+  alarm_description         = "High CPU in ${var.ec2_instance_name}"
   comparison_operator       = "GreaterThanThreshold"
   evaluation_periods        = 5
   metric_name               = "CPUUtilization"
@@ -8,7 +9,6 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   period                    = 60
   statistic                 = "Average"
   threshold                 = var.high_cpu_threshold
-  alarm_description         = "Average EC2 CPU utilization IN ${var.ec2_instance_name} is too high"
   alarm_actions             = [var.aws_sns_topic_arn]
   ok_actions                = [var.aws_sns_topic_arn]
   insufficient_data_actions = [var.aws_sns_topic_arn]
@@ -25,7 +25,8 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
 }
 resource "aws_cloudwatch_metric_alarm" "status_check_failed" {
   count                     = var.status_check_failed_enabled ? 1 : 0
-  alarm_name                = "status-check-failed-${var.ec2_instance_name}"
+  alarm_name                = "EC2 | ${var.ec2_instance_name} | Status Check Failed"
+  alarm_description         = "Status check failed in ${var.ec2_instance_id}"
   comparison_operator       = "GreaterThanThreshold"
   evaluation_periods        = 5
   datapoints_to_alarm       = 5
@@ -34,7 +35,6 @@ resource "aws_cloudwatch_metric_alarm" "status_check_failed" {
   period                    = 60
   statistic                 = "Average"
   threshold                 = var.status_check_failed_count
-  alarm_description         = "Status check failed IN ${var.ec2_instance_id}"
   alarm_actions             = [var.aws_sns_topic_arn]
   ok_actions                = [var.aws_sns_topic_arn]
   insufficient_data_actions = [var.aws_sns_topic_arn]
@@ -51,7 +51,8 @@ resource "aws_cloudwatch_metric_alarm" "status_check_failed" {
 
 resource "aws_cloudwatch_metric_alarm" "high_memory" {
   count                     = var.high_memory_enabled ? 1 : 0
-  alarm_name                = "high-memory-${var.ec2_instance_name}"
+  alarm_name                = "EC2 | ${var.ec2_instance_name} | High Memory Utilization"
+  alarm_description         = "High memory in ${var.ec2_instance_id}"
   comparison_operator       = "GreaterThanThreshold"
   evaluation_periods        = "1"
   metric_name               = "mem_used_percent"
@@ -59,7 +60,6 @@ resource "aws_cloudwatch_metric_alarm" "high_memory" {
   period                    = "300"
   statistic                 = "Average"
   threshold                 = var.high_memory_threshold
-  alarm_description         = "Average memory IN ${var.ec2_instance_id} is too high"
   alarm_actions             = [var.aws_sns_topic_arn]
   ok_actions                = [var.aws_sns_topic_arn]
   insufficient_data_actions = [var.aws_sns_topic_arn]
@@ -76,7 +76,8 @@ resource "aws_cloudwatch_metric_alarm" "high_memory" {
 
 resource "aws_cloudwatch_metric_alarm" "high_disk" {
   for_each                  = { for idx, disk in var.disk_usage_thresholds : "${disk.path}-${disk.device}-${disk.fstype}" => disk }
-  alarm_name                = "high-disk-${var.ec2_instance_name}-${each.value.path}"
+  alarm_name                = "EC2 | ${var.ec2_instance_name}/${each.value.path} | High Disk Utilization"
+  alarm_description         = "High Disk usage in ${var.ec2_instance_name}/${each.value.path}"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "1"
   metric_name               = "disk_used_percent"
@@ -99,5 +100,4 @@ resource "aws_cloudwatch_metric_alarm" "high_disk" {
     "Terraform"  = "true"
   })
 
-  alarm_description = "Disk usage in ${var.ec2_instance_name} on ${each.value.path} is too high"
 }
