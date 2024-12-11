@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   count                     = var.high_cpu_enabled ? 1 : 0
-  alarm_name                = "EC2| ${var.ec2_instance_name} | High CPU Utilization"
+  alarm_name                = "EC2 | ${var.ec2_instance_name} | High CPU Utilization"
   alarm_description         = "High CPU in ${var.ec2_instance_name}"
   comparison_operator       = "GreaterThanThreshold"
   evaluation_periods        = 5
