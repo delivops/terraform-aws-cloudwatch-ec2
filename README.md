@@ -43,7 +43,7 @@ module "ec2-cloudwatch-alarms" {
 
   ec2_instance_id   = var.ec2_instance_id
   ec2_instance_name = var.ec2_instance_name
-  aws_sns_topic_arn = aws_sns_topic.sns_topic.arn
+  aws_sns_topics_arns = [aws_sns_topic.sns_topic.arn]
   namespace         = "CWAgent"
   disk_usage_thresholds = [
     {
