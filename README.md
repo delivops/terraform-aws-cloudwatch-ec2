@@ -112,7 +112,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_aws_sns_topic_arn"></a> [aws\_sns\_topic\_arn](#input\_aws\_sns\_topic\_arn) | The ARN of the SNS topic to send CloudWatch alarms to. | `string` | n/a | yes |
+| <a name="input_aws_sns_topics_arns"></a> [aws\_sns\_topics\_arns](#input\_aws\_sns\_topics\_arns) | List of ARNs for the SNS topics | `list(string)` | `[]` | no |
 | <a name="input_disk_usage_thresholds"></a> [disk\_usage\_thresholds](#input\_disk\_usage\_thresholds) | List of disk usage thresholds with path, device, and fstype | <pre>list(object({<br/>    path      = string<br/>    device    = string<br/>    fstype    = string<br/>    threshold = number<br/>  }))</pre> | `[]` | no |
 | <a name="input_ec2_instance_id"></a> [ec2\_instance\_id](#input\_ec2\_instance\_id) | The instance ID of the EC2 instance that you want to monitor. | `string` | n/a | yes |
 | <a name="input_ec2_instance_name"></a> [ec2\_instance\_name](#input\_ec2\_instance\_name) | The name of the EC2 instance that you want to monitor. | `string` | n/a | yes |
