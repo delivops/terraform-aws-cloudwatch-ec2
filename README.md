@@ -83,18 +83,17 @@ module "ec2-cloudwatch-alarms" {
 MIT
 
 <!-- BEGIN_TF_DOCS -->
-
 ## Requirements
 
-| Name                                                   | Version   |
-| ------------------------------------------------------ | --------- |
-| <a name="requirement_aws"></a> [aws](#requirement_aws) | >= 4.67.0 |
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.67.0 |
 
 ## Providers
 
-| Name                                             | Version |
-| ------------------------------------------------ | ------- |
-| <a name="provider_aws"></a> [aws](#provider_aws) | 5.78.0  |
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.78.0 |
 
 ## Modules
 
@@ -102,33 +101,36 @@ No modules.
 
 ## Resources
 
-| Name                                                                                                                                                   | Type     |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
-| [aws_cloudwatch_metric_alarm.high_cpu](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm)            | resource |
-| [aws_cloudwatch_metric_alarm.high_disk](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm)           | resource |
-| [aws_cloudwatch_metric_alarm.high_memory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm)         | resource |
+| Name | Type |
+|------|------|
+| [aws_cloudwatch_metric_alarm.high_cpu](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
+| [aws_cloudwatch_metric_alarm.high_disk](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
+| [aws_cloudwatch_metric_alarm.high_memory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.status_check_failed](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 
 ## Inputs
 
-| Name                                                                                                               | Description                                                      | Type                                                                                                                   | Default     | Required |
-| ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ----------- | :------: |
-| <a name="input_aws_sns_topics_arns"></a> [aws_sns_topics_arns](#input_aws_sns_topics_arns)                         | List of ARNs for the SNS topics                                  | `list(string)`                                                                                                         | `[]`        |    no    |
-| <a name="input_disk_usage_thresholds"></a> [disk_usage_thresholds](#input_disk_usage_thresholds)                   | List of disk usage thresholds with path, device, and fstype      | <pre>list(object({<br/> path = string<br/> device = string<br/> fstype = string<br/> threshold = number<br/> }))</pre> | `[]`        |    no    |
-| <a name="input_ec2_instance_id"></a> [ec2_instance_id](#input_ec2_instance_id)                                     | The instance ID of the EC2 instance that you want to monitor.    | `string`                                                                                                               | n/a         |   yes    |
-| <a name="input_ec2_instance_name"></a> [ec2_instance_name](#input_ec2_instance_name)                               | The name of the EC2 instance that you want to monitor.           | `string`                                                                                                               | n/a         |   yes    |
-| <a name="input_high_cpu_enabled"></a> [high_cpu_enabled](#input_high_cpu_enabled)                                  | Enable high CPU alarm                                            | `bool`                                                                                                                 | `true`      |    no    |
-| <a name="input_high_cpu_threshold"></a> [high_cpu_threshold](#input_high_cpu_threshold)                            | The threshold for high CPU usage                                 | `number`                                                                                                               | `90`        |    no    |
-| <a name="input_high_disk_enabled"></a> [high_disk_enabled](#input_high_disk_enabled)                               | Enable high disk alarm                                           | `bool`                                                                                                                 | `true`      |    no    |
-| <a name="input_high_memory_enabled"></a> [high_memory_enabled](#input_high_memory_enabled)                         | Enable high memory alarm                                         | `bool`                                                                                                                 | `true`      |    no    |
-| <a name="input_high_memory_threshold"></a> [high_memory_threshold](#input_high_memory_threshold)                   | The threshold for high memory usage                              | `number`                                                                                                               | `90`        |    no    |
-| <a name="input_namespace"></a> [namespace](#input_namespace)                                                       | The namespace for the CloudWatch metric agent                    | `string`                                                                                                               | `"CWAgent"` |    no    |
-| <a name="input_status_check_failed_count"></a> [status_check_failed_count](#input_status_check_failed_count)       | The number of failed status checks before the alarm is triggered | `number`                                                                                                               | `1`         |    no    |
-| <a name="input_status_check_failed_enabled"></a> [status_check_failed_enabled](#input_status_check_failed_enabled) | Enable status check failed alarm                                 | `bool`                                                                                                                 | `true`      |    no    |
-| <a name="input_tags"></a> [tags](#input_tags)                                                                      | A map of tags to add to all resources.                           | `map(string)`                                                                                                          | `{}`        |    no    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_disk_usage_thresholds"></a> [disk\_usage\_thresholds](#input\_disk\_usage\_thresholds) | List of disk usage thresholds with path, device, and fstype | <pre>list(object({<br/>    path      = string<br/>    device    = string<br/>    fstype    = string<br/>    threshold = number<br/>  }))</pre> | `[]` | no |
+| <a name="input_ec2_instance_id"></a> [ec2\_instance\_id](#input\_ec2\_instance\_id) | The instance ID of the EC2 instance that you want to monitor. | `string` | n/a | yes |
+| <a name="input_ec2_instance_name"></a> [ec2\_instance\_name](#input\_ec2\_instance\_name) | The name of the EC2 instance that you want to monitor. | `string` | n/a | yes |
+| <a name="input_global_sns_topics_arns"></a> [global\_sns\_topics\_arns](#input\_global\_sns\_topics\_arns) | List of ARNs for the SNS topics | `list(string)` | `[]` | no |
+| <a name="input_high_cpu_enabled"></a> [high\_cpu\_enabled](#input\_high\_cpu\_enabled) | Enable high CPU alarm | `bool` | `true` | no |
+| <a name="input_high_cpu_sns_topics_arns"></a> [high\_cpu\_sns\_topics\_arns](#input\_high\_cpu\_sns\_topics\_arns) | List of ARNs for the SNS topics | `list(string)` | `[]` | no |
+| <a name="input_high_cpu_threshold"></a> [high\_cpu\_threshold](#input\_high\_cpu\_threshold) | The threshold for high CPU usage | `number` | `90` | no |
+| <a name="input_high_disk_enabled"></a> [high\_disk\_enabled](#input\_high\_disk\_enabled) | Enable high disk alarm | `bool` | `true` | no |
+| <a name="input_high_disk_sns_topics_arns"></a> [high\_disk\_sns\_topics\_arns](#input\_high\_disk\_sns\_topics\_arns) | List of ARNs for the SNS topics | `list(string)` | `[]` | no |
+| <a name="input_high_memory_enabled"></a> [high\_memory\_enabled](#input\_high\_memory\_enabled) | Enable high memory alarm | `bool` | `true` | no |
+| <a name="input_high_memory_sns_topics_arns"></a> [high\_memory\_sns\_topics\_arns](#input\_high\_memory\_sns\_topics\_arns) | List of ARNs for the SNS topics | `list(string)` | `[]` | no |
+| <a name="input_high_memory_threshold"></a> [high\_memory\_threshold](#input\_high\_memory\_threshold) | The threshold for high memory usage | `number` | `90` | no |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | The namespace for the CloudWatch metric agent | `string` | `"CWAgent"` | no |
+| <a name="input_status_check_failed_count"></a> [status\_check\_failed\_count](#input\_status\_check\_failed\_count) | The number of failed status checks before the alarm is triggered | `number` | `0` | no |
+| <a name="input_status_check_failed_enabled"></a> [status\_check\_failed\_enabled](#input\_status\_check\_failed\_enabled) | Enable status check failed alarm | `bool` | `true` | no |
+| <a name="input_status_check_failed_sns_topics_arns"></a> [status\_check\_failed\_sns\_topics\_arns](#input\_status\_check\_failed\_sns\_topics\_arns) | List of ARNs for the SNS topics | `list(string)` | `[]` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources. | `map(string)` | `{}` | no |
 
 ## Outputs
 
 No outputs.
-
 <!-- END_TF_DOCS -->
