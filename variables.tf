@@ -10,7 +10,7 @@ variable "high_cpu_enabled" {
   default     = true
 
 }
-variable "high_cpu_sns_topics_arns" {
+variable "high_cpu_sns_arns" {
   description = "List of ARNs for the SNS topics"
   type        = list(string)
   default     = []
@@ -28,7 +28,7 @@ variable "status_check_failed_count" {
   default     = 0
 
 }
-variable "status_check_failed_sns_topics_arns" {
+variable "status_check_failed_sns_arns" {
   description = "List of ARNs for the SNS topics"
   type        = list(string)
   default     = []
@@ -43,7 +43,7 @@ variable "ec2_instance_name" {
   type        = string
 
 }
-variable "global_sns_topics_arns" {
+variable "all_alarms_sns_arns" {
   description = "List of ARNs for the SNS topics"
   type        = list(string)
   default     = []
@@ -66,11 +66,11 @@ variable "high_memory_threshold" {
   default     = 90
 
 }
-variable "high_memory_sns_topics_arns" {
+variable "high_memory_sns_arns" {
   description = "List of ARNs for the SNS topics"
   type        = list(string)
   default     = []
-  
+
 }
 variable "high_disk_enabled" {
   description = "Enable high disk alarm"
@@ -78,7 +78,7 @@ variable "high_disk_enabled" {
   default     = true
 
 }
-variable "high_disk_sns_topics_arns" {
+variable "high_disk_sns_arns" {
   description = "List of ARNs for the SNS topics"
   type        = list(string)
   default     = []
