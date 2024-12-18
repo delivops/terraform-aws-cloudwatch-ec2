@@ -10,6 +10,12 @@ variable "high_cpu_enabled" {
   default     = true
 
 }
+variable "high_cpu_sns_topics_arns" {
+  description = "List of ARNs for the SNS topics"
+  type        = list(string)
+  default     = []
+
+}
 variable "status_check_failed_enabled" {
   description = "Enable status check failed alarm"
   type        = bool
@@ -19,7 +25,13 @@ variable "status_check_failed_enabled" {
 variable "status_check_failed_count" {
   description = "The number of failed status checks before the alarm is triggered"
   type        = number
-  default     = 1
+  default     = 0
+
+}
+variable "status_check_failed_sns_topics_arns" {
+  description = "List of ARNs for the SNS topics"
+  type        = list(string)
+  default     = []
 
 }
 variable "ec2_instance_id" {
@@ -31,7 +43,7 @@ variable "ec2_instance_name" {
   type        = string
 
 }
-variable "aws_sns_topics_arns" {
+variable "global_sns_topics_arns" {
   description = "List of ARNs for the SNS topics"
   type        = list(string)
   default     = []
@@ -54,10 +66,22 @@ variable "high_memory_threshold" {
   default     = 90
 
 }
+variable "high_memory_sns_topics_arns" {
+  description = "List of ARNs for the SNS topics"
+  type        = list(string)
+  default     = []
+  
+}
 variable "high_disk_enabled" {
   description = "Enable high disk alarm"
   type        = bool
   default     = true
+
+}
+variable "high_disk_sns_topics_arns" {
+  description = "List of ARNs for the SNS topics"
+  type        = list(string)
+  default     = []
 
 }
 variable "disk_usage_thresholds" {

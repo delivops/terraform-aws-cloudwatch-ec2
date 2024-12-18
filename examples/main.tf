@@ -17,13 +17,13 @@ resource "aws_sns_topic_subscription" "sns_subscription" {
 }
 
 module "ec2-cloudwatch-alarms" {
-  source            = "delivops/cloudwatch-ec2/aws"
-  #version           = "0.0.7"
+  source = "delivops/cloudwatch-ec2/aws"
+  #version           = "0.0.11"
 
-  ec2_instance_id   = var.ec2_instance_id
-  ec2_instance_name = var.ec2_instance_name
-  aws_sns_topics_arns = [aws_sns_topic.sns_topic.arn]
-  namespace         = "CWAgent"
+  ec2_instance_id        = var.ec2_instance_id
+  ec2_instance_name      = var.ec2_instance_name
+  global_sns_topics_arns = [aws_sns_topic.sns_topic.arn]
+  namespace              = "CWAgent"
   disk_usage_thresholds = [
     {
       path      = "/"
