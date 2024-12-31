@@ -106,6 +106,8 @@ No modules.
 | [aws_cloudwatch_metric_alarm.high_cpu](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.high_disk](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.high_memory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
+| [aws_cloudwatch_metric_alarm.low_cpu](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
+| [aws_cloudwatch_metric_alarm.low_memory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.status_check_failed](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 
 ## Inputs
@@ -124,6 +126,12 @@ No modules.
 | <a name="input_high_memory_enabled"></a> [high\_memory\_enabled](#input\_high\_memory\_enabled) | Enable high memory alarm | `bool` | `true` | no |
 | <a name="input_high_memory_sns_arns"></a> [high\_memory\_sns\_arns](#input\_high\_memory\_sns\_arns) | List of ARNs for the SNS topics | `list(string)` | `[]` | no |
 | <a name="input_high_memory_threshold"></a> [high\_memory\_threshold](#input\_high\_memory\_threshold) | The threshold for high memory usage | `number` | `90` | no |
+| <a name="input_low_cpu_enabled"></a> [low\_cpu\_enabled](#input\_low\_cpu\_enabled) | Enable low CPU alarm | `bool` | `false` | no |
+| <a name="input_low_cpu_sns_arns"></a> [low\_cpu\_sns\_arns](#input\_low\_cpu\_sns\_arns) | List of ARNs for the SNS topics | `list(string)` | `[]` | no |
+| <a name="input_low_cpu_threshold"></a> [low\_cpu\_threshold](#input\_low\_cpu\_threshold) | The threshold for low CPU usage | `number` | `5` | no |
+| <a name="input_low_memory_enabled"></a> [low\_memory\_enabled](#input\_low\_memory\_enabled) | Enable low memory alarm | `bool` | `false` | no |
+| <a name="input_low_memory_sns_arns"></a> [low\_memory\_sns\_arns](#input\_low\_memory\_sns\_arns) | List of ARNs for the SNS topics | `list(string)` | `[]` | no |
+| <a name="input_low_memory_threshold"></a> [low\_memory\_threshold](#input\_low\_memory\_threshold) | The threshold for low memory usage | `number` | `5` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | The namespace for the CloudWatch metric agent | `string` | `"CWAgent"` | no |
 | <a name="input_status_check_failed_count"></a> [status\_check\_failed\_count](#input\_status\_check\_failed\_count) | The number of failed status checks before the alarm is triggered | `number` | `0` | no |
 | <a name="input_status_check_failed_enabled"></a> [status\_check\_failed\_enabled](#input\_status\_check\_failed\_enabled) | Enable status check failed alarm | `bool` | `true` | no |
