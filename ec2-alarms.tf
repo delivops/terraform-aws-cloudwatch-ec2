@@ -28,7 +28,7 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu" {
   count                     = var.low_cpu_enabled ? 1 : 0
   alarm_name                = "EC2 | Low CPU Utilization (>${var.low_cpu_threshold}%) | ${var.ec2_instance_name}"
   alarm_description         = "Low CPU in ${var.ec2_instance_name}"
-  comparison_operator       = "LowerThanThreshold"
+  comparison_operator       = "LessThanThreshold"
   evaluation_periods        = 5
   datapoints_to_alarm       = 5
   metric_name               = "CPUUtilization"
@@ -104,7 +104,7 @@ resource "aws_cloudwatch_metric_alarm" "low_memory" {
   count                     = var.low_memory_enabled ? 1 : 0
   alarm_name                = "EC2 | Low Memory Utilization (>${var.low_memory_threshold}%) | ${var.ec2_instance_name}"
   alarm_description         = "Low memory in ${var.ec2_instance_id}"
-  comparison_operator       = "LowerThanThreshold"
+  comparison_operator       = "LessThanThreshold"
   evaluation_periods        = 5
   datapoints_to_alarm       = 5
   metric_name               = "mem_used_percent"
