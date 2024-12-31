@@ -72,6 +72,42 @@ variable "high_memory_sns_arns" {
   default     = []
 
 }
+variable "low_memory_threshold" {
+  description = "The threshold for low memory usage"
+  type        = number
+  default     = 5
+  
+}
+variable "low_memory_enabled" {
+  description = "Enable low memory alarm"
+  type        = bool
+  default     = false
+  
+}
+variable "low_memory_sns_arns" {
+  description = "List of ARNs for the SNS topics"
+  type        = list(string)
+  default     = []
+  
+}
+variable "low_cpu_threshold" {
+  description = "The threshold for low CPU usage"
+  type        = number
+  default     = 5
+  
+}
+variable "low_cpu_enabled" {
+  description = "Enable low CPU alarm"
+  type        = bool
+  default     = false
+  
+}
+variable "low_cpu_sns_arns" {
+  description = "List of ARNs for the SNS topics"
+  type        = list(string)
+  default     = []
+  
+}
 variable "high_disk_enabled" {
   description = "Enable high disk alarm"
   type        = bool

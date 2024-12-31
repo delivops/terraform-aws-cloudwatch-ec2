@@ -23,6 +23,32 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   })
 
 }
+
+resource "aws_cloudwatch_metric_alarm" "low_cpu" {
+  count                     = var.low_cpu_enabled ? 1 : 0
+  alarm_name                = "EC2 | Low CPU Utilization (>${var.low_cpu_threshold}%) | ${var.ec2_instance_name}"
+  alarm_description         = "Low CPU in ${var.ec2_instance_name}"
+  comparison_operator       = "LowerThanThreshold"
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
+  metric_name               = "CPUUtilization"
+  namespace                 = "AWS/EC2"
+  period                    = 60
+  statistic                 = "Average"
+  threshold                 = var.low_cpu_threshold
+  alarm_actions             = concat(var.low_cpu_sns_arns, var.all_alarms_sns_arns)
+  ok_actions                = concat(var.low_cpu_sns_arns, var.all_alarms_sns_arns)
+  insufficient_data_actions = concat(var.low_cpu_sns_arns, var.all_alarms_sns_arns)
+  treat_missing_data        = "breaching"
+  dimensions = {
+    InstanceId = var.ec2_instance_id
+  }
+  tags = merge(var.tags, {
+    "InstanceId" = var.ec2_instance_id,
+    "Terraform"  = "true"
+  })
+
+}
 resource "aws_cloudwatch_metric_alarm" "status_check_failed" {
   count                     = var.status_check_failed_enabled ? 1 : 0
   alarm_name                = "EC2 | Status Check Failed (>${var.status_check_failed_count}) | ${var.ec2_instance_name}"
@@ -64,6 +90,31 @@ resource "aws_cloudwatch_metric_alarm" "high_memory" {
   alarm_actions             = concat(var.high_memory_sns_arns, var.all_alarms_sns_arns)
   ok_actions                = concat(var.high_memory_sns_arns, var.all_alarms_sns_arns)
   insufficient_data_actions = concat(var.high_memory_sns_arns, var.all_alarms_sns_arns)
+  treat_missing_data        = "breaching"
+  dimensions = {
+    InstanceId = var.ec2_instance_id
+  }
+  tags = merge(var.tags, {
+    "InstanceId" = var.ec2_instance_id,
+    "Terraform"  = "true"
+  })
+
+}
+resource "aws_cloudwatch_metric_alarm" "low_memory" {
+  count                     = var.low_memory_enabled ? 1 : 0
+  alarm_name                = "EC2 | Low Memory Utilization (>${var.low_memory_threshold}%) | ${var.ec2_instance_name}"
+  alarm_description         = "Low memory in ${var.ec2_instance_id}"
+  comparison_operator       = "LowerThanThreshold"
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
+  metric_name               = "mem_used_percent"
+  namespace                 = var.namespace
+  period                    = "300"
+  statistic                 = "Average"
+  threshold                 = var.low_memory_threshold
+  alarm_actions             = concat(var.low_memory_sns_arns, var.all_alarms_sns_arns)
+  ok_actions                = concat(var.low_memory_sns_arns, var.all_alarms_sns_arns)
+  insufficient_data_actions = concat(var.low_memory_sns_arns, var.all_alarms_sns_arns)
   treat_missing_data        = "breaching"
   dimensions = {
     InstanceId = var.ec2_instance_id
