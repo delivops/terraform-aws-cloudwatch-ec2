@@ -38,8 +38,6 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu" {
   threshold                 = var.low_cpu_threshold
   alarm_actions             = concat(var.low_cpu_sns_arns, var.all_alarms_sns_arns)
   ok_actions                = concat(var.low_cpu_sns_arns, var.all_alarms_sns_arns)
-  insufficient_data_actions = concat(var.low_cpu_sns_arns, var.all_alarms_sns_arns)
-  treat_missing_data        = "breaching"
   dimensions = {
     InstanceId = var.ec2_instance_id
   }
@@ -114,8 +112,6 @@ resource "aws_cloudwatch_metric_alarm" "low_memory" {
   threshold                 = var.low_memory_threshold
   alarm_actions             = concat(var.low_memory_sns_arns, var.all_alarms_sns_arns)
   ok_actions                = concat(var.low_memory_sns_arns, var.all_alarms_sns_arns)
-  insufficient_data_actions = concat(var.low_memory_sns_arns, var.all_alarms_sns_arns)
-  treat_missing_data        = "breaching"
   dimensions = {
     InstanceId = var.ec2_instance_id
   }
