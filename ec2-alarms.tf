@@ -29,8 +29,8 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu" {
   alarm_name                = "EC2 | Low CPU Utilization (>${var.low_cpu_threshold}%) | ${var.ec2_instance_name}"
   alarm_description         = "Low CPU in ${var.ec2_instance_name}"
   comparison_operator       = "LessThanThreshold"
-  evaluation_periods        = 5
-  datapoints_to_alarm       = 5
+  evaluation_periods        = 300
+  datapoints_to_alarm       = 300
   metric_name               = "CPUUtilization"
   namespace                 = "AWS/EC2"
   period                    = 60
