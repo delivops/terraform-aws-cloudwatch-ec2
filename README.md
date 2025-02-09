@@ -93,7 +93,7 @@ MIT
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.78.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.67.0 |
 
 ## Modules
 
@@ -115,9 +115,11 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_all_alarms_sns_arns"></a> [all\_alarms\_sns\_arns](#input\_all\_alarms\_sns\_arns) | List of ARNs for the SNS topics | `list(string)` | `[]` | no |
+| <a name="input_datapoints_to_alarm"></a> [datapoints\_to\_alarm](#input\_datapoints\_to\_alarm) | The number of data points that must be breaching to trigger the alarm | `number` | `5` | no |
 | <a name="input_disk_usage_thresholds"></a> [disk\_usage\_thresholds](#input\_disk\_usage\_thresholds) | List of disk usage thresholds with path, device, and fstype | <pre>list(object({<br/>    path      = string<br/>    device    = string<br/>    fstype    = string<br/>    threshold = number<br/>  }))</pre> | `[]` | no |
 | <a name="input_ec2_instance_id"></a> [ec2\_instance\_id](#input\_ec2\_instance\_id) | The instance ID of the EC2 instance that you want to monitor. | `string` | n/a | yes |
 | <a name="input_ec2_instance_name"></a> [ec2\_instance\_name](#input\_ec2\_instance\_name) | The name of the EC2 instance that you want to monitor. | `string` | n/a | yes |
+| <a name="input_evaluation_periods"></a> [evaluation\_periods](#input\_evaluation\_periods) | The number of periods over which data is compared to the specified threshold | `number` | `5` | no |
 | <a name="input_high_cpu_enabled"></a> [high\_cpu\_enabled](#input\_high\_cpu\_enabled) | Enable high CPU alarm | `bool` | `true` | no |
 | <a name="input_high_cpu_sns_arns"></a> [high\_cpu\_sns\_arns](#input\_high\_cpu\_sns\_arns) | List of ARNs for the SNS topics | `list(string)` | `[]` | no |
 | <a name="input_high_cpu_threshold"></a> [high\_cpu\_threshold](#input\_high\_cpu\_threshold) | The threshold for high CPU usage | `number` | `90` | no |
